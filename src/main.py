@@ -1,24 +1,21 @@
 from flask import Flask, request, jsonify
 
 from src.custom_exceptions.invalid_request_exception import InvalidRequestException
-from src.data_access_layer.Implementation_classes.customer_dao import CustomerDao
-from src.entities.customer import Customer
-from src.service_layer.service_imp.customer_service import CustomerService
+from src.data_access_layer.Implementation_classes.customer_postgres_dao import CustomerPostgresDao
+from src.service_layer.service_imp.customer_postgres_service import CustomerPostgresService
 
 app: Flask = Flask(__name__)
 
-customer_dao = CustomerDao()
-customer_service = CustomerService(customer_dao)
+customer_dao = CustomerPostgresDao()
+customer_service = CustomerPostgresService(customer_dao)
 
-"""
-    ######## customer routes ########
-"""
+# 4 routs needed
 
 
 @app.post("/customer/account")
-def create_account():
+def create_new_account():
     data = request.get_json()
-    account_result = customer_service.service_create_account(data["balance"], data["customerId"])
+    account_result = customer_service.service_create_new_account(data["balance"], data["customerId"])
     return jsonify(account_result.make_dictionary()), 201
 
 
@@ -96,8 +93,8 @@ def update_customer_information_by_id(customer_id: str):
     data = request.get_json()
     first_name = data["firstName"]
     last_name = data["lastName"]
-    updated_customer = customer_service.service_update_customer_information_by_id(first_name, last_name,
-                                                                                  int(customer_id))
+    updated_customer = customer_service.service_update_customer_information_by_id(first_name,
+                                                                                  last_name, int(customer_id))
     return jsonify(updated_customer.make_dictionary()), 200
 
 
@@ -109,14 +106,20 @@ def get_customer_information_by_id(customer_id: str):
 
 @app.delete("/customer/account/<account_id>")
 def delete_account_by_id(account_id: str):
-    deleted_account = customer_service.service_delete_account_by_id(int(account_id))
-    return jsonify(deleted_account.make_dictionary()), 200
+    customer_service.service_delete_account_by_id(int(account_id))
+    return_message = {
+        "message": "Successfully deleted account with id " + account_id
+    }
+    return jsonify(return_message), 200
 
 
 @app.delete("/customer/<customer_id>")
 def delete_customer_information_by_id(customer_id: str):
-    deleted_customer = customer_service.service_delete_customer_by_id(int(customer_id))
-    return jsonify(deleted_customer.make_dictionary()), 200
+    customer_service.service_delete_customer_by_id(int(customer_id))
+    return_message = {
+        "message": "Successfully deleted customer with id " + customer_id
+    }
+    return jsonify(return_message), 200
 
 
 app.run()

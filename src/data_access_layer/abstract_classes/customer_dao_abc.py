@@ -4,9 +4,24 @@ from src.entities.customer import Customer
 
 
 class CustomerDaoAbc(ABC):
+    @abstractmethod
+    def create_new_customer(self, first_name: str, last_name: str) -> Customer:
+        pass
 
     @abstractmethod
-    def create_account(self, initial_balance: float, customer_id: int) -> Account:
+    def get_all_customers(self) -> list[Customer]:
+        pass
+
+    @abstractmethod
+    def get_all_accounts(self) -> list[Account]:
+        pass
+
+    @abstractmethod
+    def get_all_customer_accounts_by_id(self, customer_id: int) -> list[Account]:
+        pass
+
+    @abstractmethod
+    def create_new_account(self, initial_balance: float, customer_id: int) -> Account:
         pass
 
     @abstractmethod
@@ -34,25 +49,10 @@ class CustomerDaoAbc(ABC):
         pass
 
     @abstractmethod
-    def delete_account_by_id(self, account_id: int) -> Account:
+    def delete_account_by_id(self, account_id: int) -> bool:
         pass
 
     @abstractmethod
-    def delete_customer_by_id(self, customer_id: int) -> Customer:
+    def delete_customer_by_id(self, customer_id: int) -> bool:
         pass
 
-    @abstractmethod
-    def create_new_customer(self, first_name: str, last_name: str) -> Customer:
-        pass
-
-    @abstractmethod
-    def get_all_customers(self) -> list[Customer]:
-        pass
-
-    @abstractmethod
-    def get_all_accounts(self) -> list[Account]:
-        pass
-
-    @abstractmethod
-    def get_all_customer_accounts_by_id(self, customer_id: int) -> list[Account]:
-        pass

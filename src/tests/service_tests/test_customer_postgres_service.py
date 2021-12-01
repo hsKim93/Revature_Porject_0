@@ -1,11 +1,9 @@
 from src.custom_exceptions.invalid_request_exception import InvalidRequestException
-from src.data_access_layer.Implementation_classes.customer_dao import CustomerDao
-from src.entities.account import Account
-from src.entities.customer import Customer
-from src.service_layer.service_imp.customer_service import CustomerService
+from src.data_access_layer.Implementation_classes.customer_postgres_dao import CustomerPostgresDao
+from src.service_layer.service_imp.customer_postgres_service import CustomerPostgresService
 
-customer_dao = CustomerDao()
-customer_service = CustomerService(customer_dao)
+customer_dao = CustomerPostgresDao()
+customer_service = CustomerPostgresService(customer_dao)
 
 def test_service_deposit_by_id():
     try:
@@ -36,7 +34,3 @@ def test_service_transfer_by_ids_negative_amount():
         customer_service.service_transfer_by_ids(1, 2, -500)
     except InvalidRequestException as e:
         assert str(e) == "Amount must be greater than 0"
-
-
-
-
