@@ -22,7 +22,7 @@ class CustomerDao(CustomerDaoAbc):
     account_list.append(account_one)
     account_list.append(account_two)
 
-    def create_account(self, initial_balance: int, customer_id: int) -> Account:
+    def create_account(self, initial_balance: float, customer_id: int) -> Account:
         for customer in CustomerDao.customer_list:
             if customer.customer_id == customer_id:
                 account = Account(initial_balance, customer.customer_id)
@@ -30,24 +30,24 @@ class CustomerDao(CustomerDaoAbc):
                 CustomerDao.account_list.append(account)
                 return account
 
-    def get_balance_by_id(self, account_id: int) -> int:
+    def get_balance_by_id(self, account_id: int) -> float:
         for account in CustomerDao.account_list:
             if account.account_id == account_id:
                 return account.balance
 
-    def deposit_by_id(self, account_id: int, amount: int) -> int:
+    def deposit_by_id(self, account_id: int, amount: float) -> float:
         for account in CustomerDao.account_list:
             if account.account_id == account_id:
                 account.balance += amount
                 return account.balance
 
-    def withdraw_by_id(self, account_id: int, amount: int) -> int:
+    def withdraw_by_id(self, account_id: int, amount: float) -> float:
         for account in CustomerDao.account_list:
             if account.account_id == account_id:
                 account.balance -= amount
                 return account.balance
 
-    def transfer_by_ids(self, account_id_from: int, account_id_to: int, amount: int) -> bool:
+    def transfer_by_ids(self, account_id_from: int, account_id_to: int, amount: float) -> bool:
         for account_one in CustomerDao.account_list:
             if account_one.account_id == account_id_from:
                 for account_two in CustomerDao.account_list:

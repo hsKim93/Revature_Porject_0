@@ -1,6 +1,4 @@
 from src.data_access_layer.Implementation_classes.customer_dao import CustomerDao
-from src.entities.account import Account
-from src.entities.customer import Customer
 
 customer_dao = CustomerDao()
 
@@ -25,7 +23,6 @@ def test_withdraw_by_id():
 def test_transfer_by_ids():
     success = customer_dao.transfer_by_ids(1, 3, 500)
     assert success
-
 
 def test_update_customer_information_by_id():
     updated_customer = customer_dao.update_customer_information_by_id("Jane", "Doe" , 1)

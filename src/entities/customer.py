@@ -2,13 +2,11 @@ from src.entities.account import Account
 
 
 class Customer:
-    current_customer_id = 1
 
-    def __init__(self, first_name: str, last_name: str):
+    def __init__(self, customer_id, first_name: str, last_name: str):
         self.first_name: str = first_name
         self.last_name: str = last_name
-        self.customer_id: int = Customer.current_customer_id
-        Customer.current_customer_id += 1
+        self.customer_id: int = customer_id
         self.account_list: list[Account] = []
 
     def make_dictionary(self):

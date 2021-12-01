@@ -1,11 +1,9 @@
 class Account:
-    temp_account_id = 1
 
-    def __init__(self, balance: int, customer_id: int):
-        self.balance: int = balance
+    def __init__(self, account_id: int, balance: float, customer_id: int):
+        self.balance: float = balance
         self.customer_id: int = customer_id
-        self.account_id: int = Account.temp_account_id
-        Account.temp_account_id += 1
+        self.account_id: int = account_id
 
     def make_dictionary(self):
         return {

@@ -6,23 +6,23 @@ from src.entities.customer import Customer
 class CustomerDaoAbc(ABC):
 
     @abstractmethod
-    def create_account(self, initial_balance: int, customer_id: int) -> Account:
+    def create_account(self, initial_balance: float, customer_id: int) -> Account:
         pass
 
     @abstractmethod
-    def get_balance_by_id(self, account_id: int) -> int:
+    def get_balance_by_id(self, account_id: int) -> float:
         pass
 
     @abstractmethod
-    def deposit_by_id(self, account_id: int, amount: int) -> int:
+    def deposit_by_id(self, account_id: int, amount: float) -> float:
         pass
 
     @abstractmethod
-    def withdraw_by_id(self, account_id: int, amount: int) -> int:
+    def withdraw_by_id(self, account_id: int, amount: float) -> float:
         pass
 
     @abstractmethod
-    def transfer_by_ids(self, account_id_from: int, account_id_to: int, amount: int) -> bool:
+    def transfer_by_ids(self, account_id_from: int, account_id_to: int, amount: float) -> bool:
         pass
 
     @abstractmethod
