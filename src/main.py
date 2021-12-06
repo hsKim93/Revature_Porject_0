@@ -3,14 +3,54 @@ from flask import Flask, request, jsonify
 from src.custom_exceptions.invalid_request_exception import InvalidRequestException
 from src.data_access_layer.Implementation_classes.customer_postgres_dao import CustomerPostgresDao
 from src.service_layer.service_imp.customer_postgres_service import CustomerPostgresService
+# import logging
+#
+# logging.basicConfig(filename="records.log", level=logging.DEBUG, format=f"%(asctime)s %(levelname)s %(message)s")
 
 app: Flask = Flask(__name__)
 
 customer_dao = CustomerPostgresDao()
 customer_service = CustomerPostgresService(customer_dao)
 
-# 4 routs needed
+@app.post("/customer")
+def create_new_customer():
+    data = request.get_json()
+    customer_result = customer_service.service_create_new_customer(data["firstName"], data["lastName"])
+    return jsonify(customer_result.make_dictionary()), 201
 
+
+@app.get("/customer")
+def get_all_customers():
+    customer_list = customer_service.service_get_all_customers()
+    result_list = []
+    for customer in customer_list:
+        result_list.append(customer.make_dictionary())
+    result_dict = {
+        "customers": result_list
+    }
+    return jsonify(result_dict)
+
+@app.get("/account")
+def get_all_accounts():
+    account_list = customer_service.service_get_all_accounts()
+    result_list = []
+    for account in account_list:
+        result_list.append(account.make_dictionary())
+    result_dict = {
+        "accounts": result_list
+    }
+    return jsonify(result_dict)
+
+@app.get("/customer/<customer_id>/account")
+def get_all_customers_accounts_by_id(customer_id: str):
+    account_list = customer_service.service_get_all_customer_accounts_by_id(int(customer_id))
+    result_list = []
+    for account in account_list:
+        result_list.append(account.make_dictionary())
+    result_dict = {
+        "accounts": result_list
+    }
+    return jsonify(result_dict)
 
 @app.post("/customer/account")
 def create_new_account():
@@ -120,6 +160,5 @@ def delete_customer_information_by_id(customer_id: str):
         "message": "Successfully deleted customer with id " + customer_id
     }
     return jsonify(return_message), 200
-
 
 app.run()
